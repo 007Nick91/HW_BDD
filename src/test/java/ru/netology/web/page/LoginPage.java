@@ -11,7 +11,7 @@ public class LoginPage {
     private SelenideElement buttonFile = $("[data-test-id=action-login]");
 
 
-    public VerificationPage validLogin(DataHelper.AuthInfo inform){
+    public VerificationPage validLogin(DataHelper.AuthInfo inform) {
         loginFile.setValue(inform.getLogin());
         passwordFile.setValue(inform.getPassword());
         buttonFile.click();

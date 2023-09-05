@@ -20,13 +20,14 @@ public class DashboardPage {
         heading.shouldBe(Condition.visible);
 
     }
+
     public int getCardBalance(DataHelper.CardInfo cardInfo) {
         var text = cards.findBy(Condition.text(cardInfo.getCardNumber().substring(15))).getText();
         return extractBalance(text);
     }
 
-    public TransferPage getCardToIdTransfer (DataHelper.CardInfo cardInfo){
-        cards.findBy(Condition.attribute("[data-test-id]", cardInfo.getCardId ()));
+    public TransferPage getCardToIdTransfer(DataHelper.CardInfo cardInfo) {
+        cards.findBy(Condition.attribute("[data-test-id]", cardInfo.getCardId()));
         actButton.click();
         return new TransferPage();
     }

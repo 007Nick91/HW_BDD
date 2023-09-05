@@ -18,7 +18,7 @@ public class MobeyTransferTest {
 
 
     @BeforeEach
-    void shouldTransferMoneyBetweenCards(){
+    void shouldTransferMoneyBetweenCards() {
         var loginPage = open("http://localhost:9999/", LoginPage.class);
         var authInfo = getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
@@ -26,8 +26,9 @@ public class MobeyTransferTest {
         dashboardPage = verificationPage.validVerify(verificationCode);
 
     }
+
     @Test
-    void transferFromFirstToSecond(){
+    void transferFromFirstToSecond() {
         var firstCardInfo = getFirstCardInfoPro();
         var secondCardInfo = getSecondCardInfoPro();
         var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
@@ -45,7 +46,7 @@ public class MobeyTransferTest {
     }
 
     @Test
-    void transferFromSecondToFirst(){
+    void transferFromSecondToFirst() {
         var firstCardInfo = getFirstCardInfoPro();
         var secondCardInfo = getSecondCardInfoPro();
         var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
@@ -61,21 +62,24 @@ public class MobeyTransferTest {
         assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
 
     }
-//    @Test
-//    void transferFromFirstToSecond(){
-//        var firstCardInfo = getFirstCardInfoPro();
-//        var secondCardInfo = getSecondCardInfoPro();
-//        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
-//        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
-//        var amount = invalidAmount(secondCardBalance);
-//        var transferPage = dashboardPage.getCardToIdTransfer(firstCardInfo);
-//        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
-//        transferPage.findError("Ошибка!Превышен лемит");
-//        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
-//        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
-//        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
-//        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
-//
-//    }
+
+    @Test
+    void transferInvalide() {
+        var firstCardInfo = getFirstCardInfoPro();
+        var secondCardInfo = getSecondCardInfoPro();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
+        var amount = invalidAmount(secondCardBalance);
+        var expectedBalanceFirstCard = firstCardBalance + amount;
+        var expectedBalanceSecondCard = secondCardBalance - amount;
+        var transferPage = dashboardPage.getCardToIdTransfer(firstCardInfo);
+        transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
+        transferPage.findError("Ошибка!Превышен лимит");
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
+        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
+        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+
+    }
 
 }
